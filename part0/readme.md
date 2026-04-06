@@ -1,6 +1,11 @@
+# Full Stack Open — Exercise Sequence Diagrams
+
+## Exercise 0.4 — New Note (Traditional App)
+
+```mermaid
 sequenceDiagram
-participant browser
-participant server
+    participant browser
+    participant server
 
     Note right of browser: User fills form and clicks Save
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
@@ -30,10 +35,14 @@ participant server
     deactivate server
 
     Note right of browser: Browser renders the updated notes list
+```
 
+---
 
+## Exercise 0.5 — SPA Initial Load
 
-    sequenceDiagram
+```mermaid
+sequenceDiagram
     participant browser
     participant server
 
@@ -59,10 +68,14 @@ participant server
     deactivate server
 
     Note right of browser: Browser renders notes without reloading the page
+```
 
+---
 
+## Exercise 0.6 — New Note (SPA)
 
-    sequenceDiagram
+```mermaid
+sequenceDiagram
     participant browser
     participant server
 
@@ -74,3 +87,4 @@ participant server
     Note left of server: Server saves the note to the array
     server-->>browser: 201 Created
     deactivate server
+```
