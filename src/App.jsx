@@ -1,15 +1,18 @@
 import { useState } from "react";
 
 const App = () => {
-  // states for our feedback buttons
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
+  // Math calculations
+  const total = good + neutral + bad;
+  const average = total === 0 ? 0 : (good * 1 + neutral * 0 + bad * -1) / total;
+  const positivePercentage = total === 0 ? 0 : (good / total) * 100;
+
   return (
     <div>
       <h1>give feedback</h1>
-      {/* Buttons with onClick handlers */}
       <button onClick={() => setGood(good + 1)}>good</button>
       <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
       <button onClick={() => setBad(bad + 1)}>bad</button>
@@ -18,6 +21,10 @@ const App = () => {
       <p>good {good}</p>
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
+      {/* Nayi cheezein */}
+      <p>all {total}</p>
+      <p>average {average}</p>
+      <p>positive {positivePercentage} %</p>
     </div>
   );
 };
