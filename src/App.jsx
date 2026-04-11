@@ -1,13 +1,21 @@
 import { useState } from "react";
 
-// Naya Component: Sirf Stats dikhane ke liye
 const Statistics = (props) => {
   const total = props.good + props.neutral + props.bad;
-  const average =
-    total === 0
-      ? 0
-      : (props.good * 1 + props.neutral * 0 + props.bad * -1) / total;
-  const positivePercentage = total === 0 ? 0 : (props.good / total) * 100;
+
+  // Agar kisi ne feedback nahi diya, toh ye return karo
+  if (total === 0) {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    );
+  }
+
+  // Agar feedback diya hai, toh ye return karo
+  const average = (props.good * 1 + props.neutral * 0 + props.bad * -1) / total;
+  const positivePercentage = (props.good / total) * 100;
 
   return (
     <div>
@@ -34,7 +42,6 @@ const App = () => {
       <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
       <button onClick={() => setBad(bad + 1)}>bad</button>
 
-      {/* Yahan humne apne naye component ko call kiya aur data pass kar diya */}
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
