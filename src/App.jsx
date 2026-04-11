@@ -1,15 +1,14 @@
 import { useState } from "react";
 
-// Naya Component: Sirf Buttons ke liye
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-// Naya Component: Sirf ek single stat line dikhane ke liye
 const StatisticLine = ({ text, value }) => (
-  <p>
-    {text} {value}
-  </p>
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
 );
 
 const Statistics = (props) => {
@@ -30,13 +29,16 @@ const Statistics = (props) => {
   return (
     <div>
       <h1>statistics</h1>
-      {/* Ab <p> tag ki jagah humara naya StatisticLine component use hoga */}
-      <StatisticLine text="good" value={props.good} />
-      <StatisticLine text="neutral" value={props.neutral} />
-      <StatisticLine text="bad" value={props.bad} />
-      <StatisticLine text="all" value={total} />
-      <StatisticLine text="average" value={average} />
-      <StatisticLine text="positive" value={positivePercentage + " %"} />
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={props.good} />
+          <StatisticLine text="neutral" value={props.neutral} />
+          <StatisticLine text="bad" value={props.bad} />
+          <StatisticLine text="all" value={total} />
+          <StatisticLine text="average" value={average} />
+          <StatisticLine text="positive" value={positivePercentage + " %"} />
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -49,7 +51,6 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-      {/* Ab direct button nahi, apna naya Button component */}
       <Button handleClick={() => setGood(good + 1)} text="good" />
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
