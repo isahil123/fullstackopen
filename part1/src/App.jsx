@@ -38,7 +38,10 @@ const App = () => {
       <button onClick={handleNextAnecdote}>next anecdote</button>
 
       <h1>Anecdote with most votes</h1>
+<<<<<<< HEAD
 
+=======
+>>>>>>> d3f5a84188645e168ae22cfa08328d08635983ce
       <p>{anecdotes[mostVotesIndex]}</p>
       <p>has {votes[mostVotesIndex]} votes</p>
     </div>
