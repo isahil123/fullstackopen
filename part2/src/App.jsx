@@ -1,5 +1,42 @@
 import { useState } from "react";
 
+// 1. Filter Component
+const Filter = ({ value, onChange }) => (
+  <div>
+    filter shown with: <input value={value} onChange={onChange} />
+  </div>
+);
+
+// 2. Form Component
+const PersonForm = ({
+  onSubmit,
+  nameValue,
+  nameChange,
+  numberValue,
+  numberChange,
+}) => (
+  <form onSubmit={onSubmit}>
+    <div>
+      name: <input value={nameValue} onChange={nameChange} />
+    </div>
+    <div>
+      number: <input value={numberValue} onChange={numberChange} />
+    </div>
+    <button type="submit">add</button>
+  </form>
+);
+
+// 3. Persons Display Component
+const Persons = ({ persons }) => (
+  <div>
+    {persons.map((person) => (
+      <p key={person.name}>
+        {person.name} {person.number}
+      </p>
+    ))}
+  </div>
+);
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -9,7 +46,7 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
-  const [filter, setFilter] = useState(""); // Filter ki state
+  const [filter, setFilter] = useState("");
 
   const addName = (e) => {
     e.preventDefault();
@@ -17,18 +54,11 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
       return;
     }
-    setPersons(
-      persons.concat({
-        name: newName,
-        number: newNumber,
-        id: persons.length + 1,
-      }),
-    );
+    setPersons(persons.concat({ name: newName, number: newNumber }));
     setNewName("");
     setNewNumber("");
   };
 
-  // Filter ka logic: Jo naam filter string ko contain karte hain (case insensitive)
   const personsToShow =
     filter === ""
       ? persons
@@ -39,33 +69,19 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with:{" "}
-        <input value={filter} onChange={(e) => setFilter(e.target.value)} />
-      </div>
+      <Filter value={filter} onChange={(e) => setFilter(e.target.value)} />
 
       <h3>Add a new</h3>
-      <form onSubmit={addName}>
-        <div>
-          name:{" "}
-          <input value={newName} onChange={(e) => setNewName(e.target.value)} />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            value={newNumber}
-            onChange={(e) => setNewNumber(e.target.value)}
-          />
-        </div>
-        <button type="submit">add</button>
-      </form>
+      <PersonForm
+        onSubmit={addName}
+        nameValue={newName}
+        nameChange={(e) => setNewName(e.target.value)}
+        numberValue={newNumber}
+        numberChange={(e) => setNewNumber(e.target.value)}
+      />
 
       <h3>Numbers</h3>
-      {personsToShow.map((person) => (
-        <p key={person.id}>
-          {person.name} {person.number}
-        </p>
-      ))}
+      <Persons persons={personsToShow} />
     </div>
   );
 };
