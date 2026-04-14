@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react"; // 1. useEffect import karo
-import axios from "axios"; // 2. axios import karo
+import { useState, useEffect } from "react";
+import personService from "./services/persons"; // Humara naya banaya hua service module
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 
 const App = () => {
-  const [persons, setPersons] = useState([]); // Shuru mein empty array
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
 
-  // 3. Data fetch karne ke liye Effect Hook
+  // Data laane ka naya tareeka
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
-  }, []); // Khali array ka matlab hai: sirf pehli baar load hone par chalega
+  }, []);
 
   const addName = (e) => {
     e.preventDefault();
@@ -23,16 +23,18 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
       return;
     }
-    // Abhi ke liye hum sirf local state update kar rahe hain
-    setPersons(
-      persons.concat({
-        name: newName,
-        number: newNumber,
-        id: persons.length + 1,
-      }),
-    );
-    setNewName("");
-    setNewNumber("");
+
+    const personObject = {
+      name: newName,
+      number: newNumber,
+    };
+
+    // Data server pe save karne ka naya tareeka
+    personService.create(personObject).then((returnedPerson) => {
+      setPersons(persons.concat(returnedPerson)); // Server se response aane ke baad list update ki
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   const personsToShow =
